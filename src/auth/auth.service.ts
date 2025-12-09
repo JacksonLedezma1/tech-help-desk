@@ -5,12 +5,14 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { User } from '../users/entities/user.entity';
 import { Role } from '../common/enums/role.enum';
+import { ClientsService } from '../clients/clients.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly usersService: UsersService,
         private readonly jwtService: JwtService,
+        private readonly clientsService: ClientsService,
     ) { }
 
     async register(registerDto: RegisterDto): Promise<{ access_token: string; user: Partial<User> }> {
@@ -23,6 +25,14 @@ export class AuthService {
             ...registerDto,
             role: registerDto.role || Role.CLIENTE,
         });
+
+        if ((registerDto.role ?? Role.CLIENTE) === Role.CLIENTE) {
+            await this.clientsService.create({
+                name: registerDto.name,
+                company: registerDto.company,
+                contactEmail: registerDto.email,
+            });
+        }
 
         const payload = { email: user.email, sub: user.id, role: user.role };
         const access_token = this.jwtService.sign(payload);

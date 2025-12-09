@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+    UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TechniciansService } from './technicians.service';
 import { CreateTechnicianDto } from './dto/create-technician.dto';
 import { UpdateTechnicianDto } from './dto/update-technician.dto';
@@ -7,6 +17,8 @@ import { RolesGuard } from '../common/guards/roles/roles.guard';
 import { Roles } from '../common/decorators/roles/roles.decorator';
 import { Role } from '../common/enums/role.enum';
 
+@ApiTags('Technicians')
+@ApiBearerAuth()
 @Controller('technicians')
 @UseGuards(JwtGuard, RolesGuard)
 export class TechniciansController {
@@ -14,28 +26,135 @@ export class TechniciansController {
 
     @Post()
     @Roles(Role.ADMINISTRADOR)
+    @ApiOperation({ summary: 'Create a new technician' })
+    @ApiBody({
+        type: CreateTechnicianDto,
+        examples: {
+            default: {
+                summary: 'Technician payload',
+                value: {
+                    name: 'María Lopez',
+                    specialty: 'Redes',
+                    availability: true,
+                },
+            },
+        },
+    })
+    @ApiResponse({
+        status: 201,
+        description: 'Technician successfully created.',
+        schema: {
+            example: {
+                success: true,
+                data: {
+                    id: '1f3d6a7b-2c4e-5f6a-8b9c-0d1e2f3a4b5c',
+                    name: 'María Lopez',
+                    specialty: 'Redes',
+                    availability: true,
+                },
+                message: 'Request successful',
+            },
+        },
+    })
     create(@Body() createTechnicianDto: CreateTechnicianDto) {
         return this.techniciansService.create(createTechnicianDto);
     }
 
     @Get()
+    @ApiOperation({ summary: 'List all technicians' })
+    @ApiResponse({
+        status: 200,
+        description: 'Return all technicians.',
+        schema: {
+            example: {
+                success: true,
+                data: [
+                    {
+                        id: '1f3d6a7b-2c4e-5f6a-8b9c-0d1e2f3a4b5c',
+                        name: 'María Lopez',
+                        specialty: 'Redes',
+                        availability: true,
+                    },
+                ],
+                message: 'Request successful',
+            },
+        },
+    })
     findAll() {
         return this.techniciansService.findAll();
     }
 
     @Get(':id')
+    @ApiOperation({ summary: 'Get technician by ID' })
+    @ApiResponse({
+        status: 200,
+        description: 'Return the technician.',
+        schema: {
+            example: {
+                success: true,
+                data: {
+                    id: '1f3d6a7b-2c4e-5f6a-8b9c-0d1e2f3a4b5c',
+                    name: 'María Lopez',
+                    specialty: 'Redes',
+                    availability: true,
+                },
+                message: 'Request successful',
+            },
+        },
+    })
     findOne(@Param('id') id: string) {
         return this.techniciansService.findOne(id);
     }
 
     @Patch(':id')
     @Roles(Role.ADMINISTRADOR)
+    @ApiOperation({ summary: 'Update a technician' })
+    @ApiBody({
+        type: UpdateTechnicianDto,
+        examples: {
+            default: {
+                summary: 'Update payload',
+                value: {
+                    specialty: 'Soporte',
+                    availability: false,
+                },
+            },
+        },
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Technician successfully updated.',
+        schema: {
+            example: {
+                success: true,
+                data: {
+                    id: '1f3d6a7b-2c4e-5f6a-8b9c-0d1e2f3a4b5c',
+                    name: 'María Lopez',
+                    specialty: 'Soporte',
+                    availability: false,
+                },
+                message: 'Request successful',
+            },
+        },
+    })
     update(@Param('id') id: string, @Body() updateTechnicianDto: UpdateTechnicianDto) {
         return this.techniciansService.update(id, updateTechnicianDto);
     }
 
     @Delete(':id')
     @Roles(Role.ADMINISTRADOR)
+    @ApiOperation({ summary: 'Delete a technician' })
+    @ApiResponse({
+        status: 200,
+        description: 'Technician successfully deleted.',
+        schema: {
+            example: {
+                success: true,
+                data: null,
+                message: 'Request successful',
+            },
+        },
+    })
     remove(@Param('id') id: string) {
         return this.techniciansService.remove(id);
     }
