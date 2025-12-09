@@ -1,150 +1,236 @@
-# Tech Help Desk - API
+# Tech Help Desk API
 
 **Coder:** Jackson Ledezma  
 **Clan:** Ubuntu
 
-API de help desk técnico (NestJS + TypeORM + JWT) con roles Admin, Técnico y Cliente. Respuestas estándar `{ success, data, message }` y Swagger en `/api/docs`. Al registrar un cliente se crea también en la tabla de clientes.
+System for managing technical support tickets, built with **NestJS**, **TypeORM**, and **PostgreSQL**. It includes authentication via **JWT**, role-based access control (RBAC), and containerization with **Docker**.
 
-## 1) Levantar el proyecto
-1. Copia variables y ajusta credenciales:
-```bash
-cp .env.example .env
-```
-Variables mínimas:
-```
-DB_HOST=localhost
+---
+
+## 📋 Table of Contents
+1. [Technologies](#-technologies)
+2. [Features](#-features)
+3. [Prerequisites](#-prerequisites)
+4. [Installation & Setup](#-installation--setup)
+    - [Running Locally](#running-locally)
+    - [Running with Docker](#running-with-docker)
+5. [Environment Variables](#-environment-variables)
+6. [Database Seeding](#-database-seeding)
+7. [API Documentation](#-api-documentation)
+8. [Testing](#-testing)
+
+---
+
+## 🚀 Technologies
+- **Framework:** NestJS
+- **Language:** TypeScript
+- **Database:** PostgreSQL
+- **ORM:** TypeORM
+- **Authentication:** JWT (JSON Web Tokens)
+- **Documentation:** Swagger (OpenAPI)
+- **Containerization:** Docker & Docker Compose
+
+---
+
+## ✨ Features
+- **Authentication & Authorization**: Secure login with JWT.
+- **Roles**:
+    - **Administrador**: Full access to all resources (Users, Clients, Technicians, Categories, Tickets).
+    - **Técnico**: Can view assigned tickets and update their status.
+    - **Cliente**: Can create tickets and view their own history.
+- **Ticket Management**: Complete workflow (Open -> In Progress -> Resolved -> Closed).
+- **Standardized Responses**: All endpoints return a standard format `{ success, data, message }`.
+- **Validation**: Strict data validation using DTOs.
+
+---
+
+## 🛠 Prerequisites
+- Node.js (v18+)
+- npm
+- Docker & Docker Compose (optional, for containerized deployment)
+- PostgreSQL (if running locally without Docker)
+
+---
+
+## ⚙ Installation & Setup
+
+### Running Locally
+
+1. **Clone the repository** (if applicable) and navigate to the project directory.
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Configure Environment Variables**:
+   Copy `.env.example` to `.env` and adjust the values.
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Start the Database**: Ensure you have a PostgreSQL instance running matching your `.env` configuration.
+
+5. **Run the Application**:
+   ```bash
+   # Development mode
+   npm run start:dev
+   
+   # Production mode
+   npm run build
+   npm run start:prod
+   ```
+
+### Running with Docker
+
+1. **Configure Environment Variables**:
+   Ensure your `.env` file exists. For Docker, set `DB_HOST=db`.
+
+2. **Build and Run**:
+   ```bash
+   docker compose up -d --build
+   ```
+  To view logs:
+   ```bash
+   docker logs -f nest-api
+   ```
+   The API will be available at `http://localhost:5000`.
+
+---
+
+## 🔐 Environment Variables
+
+Create a `.env` file with the following variables:
+
+```env
+DB_HOST=localhost       # Or 'db' if using Docker
 DB_PORT=5432
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
 DB_DATABASE=tech_help_desk
-JWT_SECRET=un-secreto-seguro
+JWT_SECRET=your_secure_secret
+PORT=5000
 NODE_ENV=development
 ```
-2. Instala dependencias:
-```bash
-npm install
-```
-3. Ejecuta en desarrollo:
-```bash
-npm run start:dev
-```
-4. (Opcional) Poblar datos de prueba:
+
+---
+
+## 🌱 Database Seeding
+
+Populate the database with initial test data (Roles, Categories, Users, etc.).
+
+**Locally:**
 ```bash
 npm run seed
 ```
-5. Producción:
-```bash
-npm run build
-npm run start:prod
-```
 
-## 2) Swagger
-- URL local: `http://localhost:3000/api/docs`
-- Usa el botón Authorize con Bearer JWT.
+**Data Created:**
+- **Users**:
+  - Admin: `admin@seed.com` / `Admin123!`
+  - Technician: `tech@seed.com` / `Tech123!`
+  - Client: `client@seed.com` / `Client123!`
+- **Categories**: Hardware (Seed), Software (Seed)
+- **Clients**: Acme Corp, Globex
+- **Technicians**: María López, Juan Pérez
 
-## 3) Endpoints clave (ejemplos)
+---
 
-Autenticación
+## 📖 API Documentation
+
+**Swagger UI**:  
+Interactive documentation is available at:  
+`http://localhost:5000/api/docs` (or `http://localhost:3000/api/docs` if running locally on port 3000).
+
+### Key Endpoints (Examples)
+
+**Authentication**
 - `POST /auth/register`
 ```json
 {
-  "email": "user@example.com",
+  "email": "curl.user@example.com",
   "password": "Pass123!",
-  "name": "User",
-  "role": "cliente",
-  "company": "Acme Corp"
+  "name": "User Curl",
+  "role": "client",
+  "company": "Curl Corp"
 }
 ```
 - `POST /auth/login`
 ```json
-{ "email": "user@example.com", "password": "Pass123!" }
+{ "email": "curl.user@example.com", "password": "Pass123!" }
 ```
-- `GET /auth/profile` (Bearer)
+- `GET /auth/profile` (Requires Bearer Token)
 
-Tickets
-- Crear (Cliente/Admin): `POST /tickets`
+**Tickets**
+- **Create** (Cliente/Admin): `POST /tickets`
 ```json
-{ "title": "Impresora", "description": "Error 50", "categoryId": "<uuid>", "clientId": "<uuid>", "priority": "alta" }
+{ "title": "Printer Curl", "description": "Error Curl", "categoryId": "<uuid>", "clientId": "<uuid>", "priority": "high" }
 ```
-- Cambiar estado (Téc/Admin): `PATCH /tickets/:id/status`
+- **Change Status** (Téc/Admin): `PATCH /tickets/:id/status`
 ```json
-{ "status": "en_progreso" }
+{ "status": "in_progress" }
 ```
-- Asignar técnico (Admin): `PATCH /tickets/:id/assign`
+- **Assign Technician** (Admin): `PATCH /tickets/:id/assign`
 ```json
 { "technicianId": "<uuid-tecnico>" }
 ```
-- Actualizar ticket (Admin/Téc según guard): `PATCH /tickets/:id`
+- **Update Ticket** (Admin/Téc): `PATCH /tickets/:id`
 ```json
-{ "title": "Nuevo título opcional", "priority": "media" }
+{ "title": "Ticket Curl Updated", "priority": "medium" }
 ```
-- Eliminar (Admin): `DELETE /tickets/:id`
-- Listar todos (Admin): `GET /tickets`
-- Mis tickets (Cliente/Admin): `GET /tickets/my-tickets`
-- Asignados (Téc/Admin): `GET /tickets/assigned`
-- Por cliente: `GET /tickets/client/:id`
-- Por técnico: `GET /tickets/technician/:id`
-- Cambiar estado (Téc/Admin): `PATCH /tickets/:id/status`
+- **List All** (Admin): `GET /tickets`
+- **My Tickets** (Cliente/Admin): `GET /tickets/my-tickets`
+- **Assigned Tickets** (Téc/Admin): `GET /tickets/assigned`
+
+**Users (Admin Only)**
+- **Create**: `POST /users`
 ```json
-{ "status": "en_progreso" }
+{ "email": "curl.admin@example.com", "password": "Pass123!", "name": "Admin Curl", "role": "admin" }
 ```
-- Asignar técnico (Admin): `PATCH /tickets/:id/assign`
+- **Update**: `PATCH /users/:id`
 ```json
-{ "technicianId": "<uuid>" }
+{ "name": "Admin Curl Updated", "role": "technician" }
 ```
 
-Usuarios (Admin)
-- Crear: `POST /users`
+**Clients (Admin Only)**
+- **Create**: `POST /clients`
 ```json
-{ "email": "new.user@example.com", "password": "Pass123!", "name": "New User", "role": "cliente" }
+{ "name": "Client Curl", "company": "Curl Inc", "contactEmail": "contact@curl-inc.com" }
 ```
-- Actualizar: `PATCH /users/:id`
+- **Update**: `PATCH /clients/:id`
 ```json
-{ "name": "Updated Name", "role": "tecnico" }
+{ "company": "Curl Inc Updated" }
 ```
-- Eliminar: `DELETE /users/:id`
 
-Clientes (Admin)
-- Crear: `POST /clients`
+**Technicians (Admin Only)**
+- **Create**: `POST /technicians`
 ```json
-{ "name": "Cliente 1", "company": "Acme", "contactEmail": "cliente1@acme.com" }
+{ "name": "Tech Curl", "specialty": "Linux", "availability": true }
 ```
-- Actualizar: `PATCH /clients/:id`
-```json
-{ "company": "Acme Updated" }
-```
-- Eliminar: `DELETE /clients/:id`
-
-Técnicos (Admin)
-- Crear: `POST /technicians`
-```json
-{ "name": "Tech 1", "specialty": "Redes", "availability": true }
-```
-- Actualizar: `PATCH /technicians/:id`
+- **Update**: `PATCH /technicians/:id`
 ```json
 { "availability": false }
 ```
-- Eliminar: `DELETE /technicians/:id`
 
-Categorías (Admin)
-- Crear: `POST /categories`
+**Categories (Admin Only)**
+- **Create**: `POST /categories`
 ```json
-{ "name": "Hardware", "description": "Incidencias físicas" }
+{ "name": "Hardware Curl", "description": "Physical issues Curl" }
 ```
-- Actualizar: `PATCH /categories/:id`
+- **Update**: `PATCH /categories/:id`
 ```json
-{ "description": "Impresoras y PCs" }
+{ "description": "Update desc" }
 ```
-- Eliminar: `DELETE /categories/:id`
 
-## 4) Tests
-- Unit tests: `npm test`
-- Cobertura: `npm run test:cov`
+---
 
-## 5) Seeds (datos de prueba)
-`npm run seed` crea:
-- Usuarios: admin@example.com (Admin123!), tech@example.com (Tech123!), client@example.com (Client123!)
-- Categorías: Hardware, Software
-- Clientes: Acme Corp, Globex
-- Técnicos: María López, Juan Pérez
-- Tickets de ejemplo con estados/prioridades
+## 🧪 Testing
+
+Run the test suite to verify functionality.
+
+```bash
+# Unit tests
+npm test
+
+# Test coverage
+npm run test:cov
+```

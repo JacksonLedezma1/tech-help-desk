@@ -42,7 +42,7 @@ export class TicketsService {
     async findOne(id: string): Promise<Ticket> {
         const ticket = await this.ticketRepository.findOne({ where: { id } });
         if (!ticket) {
-            throw new NotFoundException(`Ticket con ID "${id}" no encontrado`);
+            throw new NotFoundException(`Ticket with ID "${id}" not found`);
         }
         return ticket;
     }
@@ -100,8 +100,8 @@ export class TicketsService {
         ticket.technicianId = assignTechnicianDto.technicianId;
 
         // Automáticamente cambiar el estado a "en progreso" si está asignando un técnico
-        if (ticket.status === TicketStatus.ABIERTO) {
-            ticket.status = TicketStatus.EN_PROGRESO;
+        if (ticket.status === TicketStatus.OPEN) {
+            ticket.status = TicketStatus.IN_PROGRESS;
         }
 
         return await this.ticketRepository.save(ticket);
@@ -120,7 +120,7 @@ export class TicketsService {
 
         if (inProgressCount >= 5) {
             throw new BadRequestException(
-                `El técnico ya tiene el máximo de 5 tickets en progreso (actualmente: ${inProgressCount})`,
+                `Technician already has the maximum of 5 tickets in progress (current: ${inProgressCount})`,
             );
         }
     }
@@ -132,7 +132,7 @@ export class TicketsService {
         return await this.ticketRepository.count({
             where: {
                 technicianId,
-                status: TicketStatus.EN_PROGRESO,
+                status: TicketStatus.IN_PROGRESS,
             },
         });
     }
@@ -148,18 +148,18 @@ export class TicketsService {
         }
 
         const validTransitions: Record<TicketStatus, TicketStatus[]> = {
-            [TicketStatus.ABIERTO]: [TicketStatus.EN_PROGRESO],
-            [TicketStatus.EN_PROGRESO]: [TicketStatus.RESUELTO],
-            [TicketStatus.RESUELTO]: [TicketStatus.CERRADO],
-            [TicketStatus.CERRADO]: [], // No se puede cambiar desde cerrado
+            [TicketStatus.OPEN]: [TicketStatus.IN_PROGRESS],
+            [TicketStatus.IN_PROGRESS]: [TicketStatus.RESOLVED],
+            [TicketStatus.RESOLVED]: [TicketStatus.CLOSED],
+            [TicketStatus.CLOSED]: [], // Cannot change from closed
         };
 
         const allowedNextStatuses = validTransitions[currentStatus];
 
         if (!allowedNextStatuses.includes(newStatus)) {
             throw new BadRequestException(
-                `Transición de estado inválida: no se puede cambiar de "${currentStatus}" a "${newStatus}". ` +
-                `Estados válidos desde "${currentStatus}": ${allowedNextStatuses.length > 0 ? allowedNextStatuses.join(', ') : 'ninguno (ticket cerrado)'}`,
+                `Invalid status transition: cannot change from "${currentStatus}" to "${newStatus}". ` +
+                `Valid states from "${currentStatus}": ${allowedNextStatuses.length > 0 ? allowedNextStatuses.join(', ') : 'none (ticket closed)'}`,
             );
         }
     }

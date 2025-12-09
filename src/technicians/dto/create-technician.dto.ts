@@ -2,7 +2,7 @@ import { IsNotEmpty, IsString, IsOptional, IsBoolean } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateTechnicianDto {
-    @ApiProperty({ example: 'María Lopez', description: 'Nombre del técnico' })
+    @ApiProperty({ example: 'Tech Swagger', description: 'Nombre del técnico' })
     @IsNotEmpty({ message: 'El nombre del técnico es requerido' })
     @IsString({ message: 'El nombre debe ser un texto' })
     name: string;

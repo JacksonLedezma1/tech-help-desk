@@ -18,7 +18,7 @@ export class Ticket {
     @Column({
         type: 'enum',
         enum: TicketStatus,
-        default: TicketStatus.ABIERTO,
+        default: TicketStatus.OPEN,
     })
     status: TicketStatus;
 

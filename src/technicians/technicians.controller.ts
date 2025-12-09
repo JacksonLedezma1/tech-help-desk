@@ -25,7 +25,7 @@ export class TechniciansController {
     constructor(private readonly techniciansService: TechniciansService) { }
 
     @Post()
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Create a new technician' })
     @ApiBody({
         type: CreateTechnicianDto,
@@ -33,7 +33,7 @@ export class TechniciansController {
             default: {
                 summary: 'Technician payload',
                 value: {
-                    name: 'María Lopez',
+                    name: 'Tech Swagger',
                     specialty: 'Redes',
                     availability: true,
                 },
@@ -47,8 +47,7 @@ export class TechniciansController {
             example: {
                 success: true,
                 data: {
-                    id: '1f3d6a7b-2c4e-5f6a-8b9c-0d1e2f3a4b5c',
-                    name: 'María Lopez',
+                    name: 'Tech Swagger',
                     specialty: 'Redes',
                     availability: true,
                 },
@@ -70,8 +69,7 @@ export class TechniciansController {
                 success: true,
                 data: [
                     {
-                        id: '1f3d6a7b-2c4e-5f6a-8b9c-0d1e2f3a4b5c',
-                        name: 'María Lopez',
+                        name: 'Tech Swagger',
                         specialty: 'Redes',
                         availability: true,
                     },
@@ -93,8 +91,7 @@ export class TechniciansController {
             example: {
                 success: true,
                 data: {
-                    id: '1f3d6a7b-2c4e-5f6a-8b9c-0d1e2f3a4b5c',
-                    name: 'María Lopez',
+                    name: 'Tech Swagger',
                     specialty: 'Redes',
                     availability: true,
                 },
@@ -107,7 +104,7 @@ export class TechniciansController {
     }
 
     @Patch(':id')
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Update a technician' })
     @ApiBody({
         type: UpdateTechnicianDto,
@@ -128,8 +125,7 @@ export class TechniciansController {
             example: {
                 success: true,
                 data: {
-                    id: '1f3d6a7b-2c4e-5f6a-8b9c-0d1e2f3a4b5c',
-                    name: 'María Lopez',
+                    name: 'Tech Swagger',
                     specialty: 'Soporte',
                     availability: false,
                 },
@@ -142,7 +138,7 @@ export class TechniciansController {
     }
 
     @Delete(':id')
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Delete a technician' })
     @ApiResponse({
         status: 200,

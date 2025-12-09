@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateClientDto } from './dto/create-client.dto';
@@ -13,8 +13,15 @@ export class ClientsService {
     ) { }
 
     async create(createClientDto: CreateClientDto): Promise<Client> {
-        const client = this.clientRepository.create(createClientDto);
-        return await this.clientRepository.save(client);
+        try {
+            const client = this.clientRepository.create(createClientDto);
+            return await this.clientRepository.save(client);
+        } catch (error) {
+            if (error.code === '23505') {
+                throw new ConflictException('El correo de contacto ya está registrado');
+            }
+            throw error;
+        }
     }
 
     async findAll(): Promise<Client[]> {

@@ -36,11 +36,11 @@ export class TicketsController {
             default: {
                 summary: 'Completa con tus UUID reales',
                 value: {
-                    title: 'Problema con la impresora',
-                    description: 'La impresora no responde y muestra error 50.',
+                    title: 'Problem with Swagger printer',
+                    description: 'The printer is not responding to Swagger and shows error 50.',
                     categoryId: 'coloca-aqui-tu-uuid-de-categoria',
                     clientId: 'coloca-aqui-tu-uuid-de-cliente',
-                    priority: 'alta',
+                    priority: 'high',
                 },
             },
         },
@@ -52,13 +52,12 @@ export class TicketsController {
             example: {
                 success: true,
                 data: {
-                    id: 'c2b1a3d4-e5f6-7890-abcd-ef1234567890',
-                    title: 'Problema con la impresora',
-                    description: 'La impresora no responde y muestra error 50.',
+                    title: 'Problem with Swagger printer',
+                    description: 'The printer is not responding to Swagger and shows error 50.',
                     categoryId: '3d5c3e4f-1a2b-4c5d-9e8f-7a6b5c4d3e2f',
                     clientId: '8b4e2f4b-8f8f-4a4e-9f9f-1a2b3c4d5e6f',
-                    status: 'abierto',
-                    priority: 'alta',
+                    status: 'open',
+                    priority: 'high',
                 },
                 message: 'Request successful',
             },
@@ -69,7 +68,7 @@ export class TicketsController {
     }
 
     @Get()
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'List all tickets' })
     @ApiResponse({
         status: 200,
@@ -79,11 +78,10 @@ export class TicketsController {
                 success: true,
                 data: [
                     {
-                        id: 'c2b1a3d4-e5f6-7890-abcd-ef1234567890',
-                        title: 'Problema con la impresora',
-                        description: 'La impresora no responde y muestra error 50.',
-                        status: 'abierto',
-                        priority: 'alta',
+                        title: 'Problem with Swagger printer',
+                        description: 'The printer is not responding to Swagger and shows error 50.',
+                        status: 'open',
+                        priority: 'high',
                     },
                 ],
                 message: 'Request successful',
@@ -95,7 +93,7 @@ export class TicketsController {
     }
 
     @Get('my-tickets')
-    @Roles(Role.CLIENTE, Role.ADMINISTRADOR)
+    @Roles(Role.CLIENT, Role.ADMIN)
     @ApiOperation({ summary: 'List tickets created by the authenticated client' })
     @ApiResponse({
         status: 200,
@@ -105,11 +103,10 @@ export class TicketsController {
                 success: true,
                 data: [
                     {
-                        id: 'c2b1a3d4-e5f6-7890-abcd-ef1234567890',
-                        title: 'Problema con la impresora',
-                        description: 'La impresora no responde y muestra error 50.',
-                        status: 'abierto',
-                        priority: 'alta',
+                        title: 'Problem with Swagger printer',
+                        description: 'The printer is not responding to Swagger and shows error 50.',
+                        status: 'open',
+                        priority: 'high',
                     },
                 ],
                 message: 'Request successful',
@@ -121,7 +118,7 @@ export class TicketsController {
     }
 
     @Get('assigned')
-    @Roles(Role.TECNICO, Role.ADMINISTRADOR)
+    @Roles(Role.TECHNICIAN, Role.ADMIN)
     @ApiOperation({ summary: 'List tickets assigned to the authenticated technician' })
     @ApiResponse({
         status: 200,
@@ -131,11 +128,10 @@ export class TicketsController {
                 success: true,
                 data: [
                     {
-                        id: 'c2b1a3d4-e5f6-7890-abcd-ef1234567890',
-                        title: 'Problema con la impresora',
-                        description: 'La impresora no responde y muestra error 50.',
-                        status: 'en_progreso',
-                        priority: 'alta',
+                        title: 'Problem with Swagger printer',
+                        description: 'The printer is not responding to Swagger and shows error 50.',
+                        status: 'in_progress',
+                        priority: 'high',
                     },
                 ],
                 message: 'Request successful',
@@ -147,7 +143,7 @@ export class TicketsController {
     }
 
     @Get('client/:id')
-    @Roles(Role.ADMINISTRADOR, Role.CLIENTE)
+    @Roles(Role.ADMIN, Role.CLIENT)
     @ApiOperation({ summary: 'List tickets by client ID' })
     @ApiResponse({
         status: 200,
@@ -157,11 +153,10 @@ export class TicketsController {
                 success: true,
                 data: [
                     {
-                        id: 'c2b1a3d4-e5f6-7890-abcd-ef1234567890',
-                        title: 'Problema con la impresora',
-                        description: 'La impresora no responde y muestra error 50.',
-                        status: 'abierto',
-                        priority: 'alta',
+                        title: 'Problem with Swagger printer',
+                        description: 'The printer is not responding to Swagger and shows error 50.',
+                        status: 'open',
+                        priority: 'high',
                     },
                 ],
                 message: 'Request successful',
@@ -173,7 +168,7 @@ export class TicketsController {
     }
 
     @Get('technician/:id')
-    @Roles(Role.ADMINISTRADOR, Role.TECNICO)
+    @Roles(Role.ADMIN, Role.TECHNICIAN)
     @ApiOperation({ summary: 'List tickets by technician ID' })
     @ApiResponse({
         status: 200,
@@ -183,11 +178,10 @@ export class TicketsController {
                 success: true,
                 data: [
                     {
-                        id: 'c2b1a3d4-e5f6-7890-abcd-ef1234567890',
-                        title: 'Problema con la impresora',
-                        description: 'La impresora no responde y muestra error 50.',
-                        status: 'en_progreso',
-                        priority: 'alta',
+                        title: 'Problem with Swagger printer',
+                        description: 'The printer is not responding to Swagger and shows error 50.',
+                        status: 'in_progress',
+                        priority: 'high',
                     },
                 ],
                 message: 'Request successful',
@@ -207,11 +201,10 @@ export class TicketsController {
             example: {
                 success: true,
                 data: {
-                    id: 'c2b1a3d4-e5f6-7890-abcd-ef1234567890',
-                    title: 'Problema con la impresora',
-                    description: 'La impresora no responde y muestra error 50.',
-                    status: 'abierto',
-                    priority: 'alta',
+                    title: 'Problem with Swagger printer',
+                    description: 'The printer is not responding to Swagger and shows error 50.',
+                    status: 'open',
+                    priority: 'high',
                 },
                 message: 'Request successful',
             },
@@ -229,8 +222,8 @@ export class TicketsController {
             default: {
                 summary: 'Update payload',
                 value: {
-                    title: 'Problema con la impresora',
-                    priority: 'media',
+                    title: 'Problem with Swagger printer',
+                    priority: 'medium',
                 },
             },
         },
@@ -242,11 +235,10 @@ export class TicketsController {
             example: {
                 success: true,
                 data: {
-                    id: 'c2b1a3d4-e5f6-7890-abcd-ef1234567890',
-                    title: 'Problema con la impresora',
-                    description: 'La impresora no responde y muestra error 50.',
-                    status: 'abierto',
-                    priority: 'media',
+                    title: 'Problem with Swagger printer',
+                    description: 'The printer is not responding to Swagger and shows error 50.',
+                    status: 'open',
+                    priority: 'medium',
                 },
                 message: 'Request successful',
             },
@@ -257,7 +249,7 @@ export class TicketsController {
     }
 
     @Patch(':id/status')
-    @Roles(Role.TECNICO, Role.ADMINISTRADOR)
+    @Roles(Role.TECHNICIAN, Role.ADMIN)
     @ApiOperation({ summary: 'Update the status of a ticket' })
     @ApiBody({
         type: UpdateStatusDto,
@@ -265,7 +257,7 @@ export class TicketsController {
             default: {
                 summary: 'Status payload',
                 value: {
-                    status: 'en_progreso',
+                    status: 'in_progress',
                 },
             },
         },
@@ -277,8 +269,7 @@ export class TicketsController {
             example: {
                 success: true,
                 data: {
-                    id: 'c2b1a3d4-e5f6-7890-abcd-ef1234567890',
-                    status: 'en_progreso',
+                    status: 'in_progress',
                 },
                 message: 'Request successful',
             },
@@ -289,7 +280,7 @@ export class TicketsController {
     }
 
     @Patch(':id/assign')
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Assign a technician to a ticket' })
     @ApiBody({
         type: AssignTechnicianDto,
@@ -309,7 +300,6 @@ export class TicketsController {
             example: {
                 success: true,
                 data: {
-                    id: 'c2b1a3d4-e5f6-7890-abcd-ef1234567890',
                     technicianId: '1f3d6a7b-2c4e-5f6a-8b9c-0d1e2f3a4b5c',
                 },
                 message: 'Request successful',
@@ -321,7 +311,7 @@ export class TicketsController {
     }
 
     @Delete(':id')
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Delete a ticket' })
     @ApiResponse({
         status: 200,

@@ -23,10 +23,10 @@ export class AuthService {
 
         const user = await this.usersService.create({
             ...registerDto,
-            role: registerDto.role || Role.CLIENTE,
+            role: registerDto.role || Role.CLIENT,
         });
 
-        if ((registerDto.role ?? Role.CLIENTE) === Role.CLIENTE) {
+        if ((registerDto.role ?? Role.CLIENT) === Role.CLIENT) {
             await this.clientsService.create({
                 name: registerDto.name,
                 company: registerDto.company,

@@ -3,7 +3,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Role } from '../../common/enums/role.enum';
 
 export class RegisterDto {
-    @ApiProperty({ example: 'admin@example.com', description: 'User email address' })
+    @ApiProperty({ example: 'admin.swagger@example.com', description: 'User email address' })
     @IsEmail()
     @IsNotEmpty()
     email: string;
@@ -14,20 +14,20 @@ export class RegisterDto {
     @MinLength(6)
     password: string;
 
-    @ApiProperty({ example: 'John Doe', description: 'User full name' })
+    @ApiProperty({ example: 'Admin Swagger', description: 'User full name' })
     @IsString()
     @IsNotEmpty()
     name: string;
 
     @ApiPropertyOptional({
-        example: 'Acme Corp',
-        description: 'Empresa del cliente (solo requerido para rol cliente)',
+        example: 'Swagger Corp',
+        description: 'Client company (only required for client role)',
     })
     @IsOptional()
     @IsString()
     company?: string;
 
-    @ApiProperty({ enum: Role, required: false, default: Role.CLIENTE, description: 'User role' })
+    @ApiProperty({ enum: Role, required: false, default: Role.CLIENT, description: 'User role' })
     @IsEnum(Role)
     @IsOptional()
     role?: Role;

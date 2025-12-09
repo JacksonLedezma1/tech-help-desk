@@ -4,11 +4,11 @@ import { TicketStatus } from '../../common/enums/ticket-status.enum';
 
 export class UpdateStatusDto {
     @ApiProperty({
-        example: TicketStatus.EN_PROGRESO,
+        example: TicketStatus.IN_PROGRESS,
         enum: TicketStatus,
-        description: 'Nuevo estado del ticket',
+        description: 'New ticket status',
     })
-    @IsNotEmpty({ message: 'El estado es requerido' })
-    @IsEnum(TicketStatus, { message: 'El estado debe ser un valor válido (abierto, en_progreso, resuelto, cerrado)' })
+    @IsNotEmpty({ message: 'Status is required' })
+    @IsEnum(TicketStatus, { message: 'Status must be a valid value (open, in_progress, resolved, closed)' })
     status: TicketStatus;
 }

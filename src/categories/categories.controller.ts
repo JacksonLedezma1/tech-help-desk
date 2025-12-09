@@ -16,7 +16,7 @@ export class CategoriesController {
     constructor(private readonly categoriesService: CategoriesService) { }
 
     @Post()
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Create a new category' })
     @ApiBody({
         type: CreateCategoryDto,
@@ -24,8 +24,8 @@ export class CategoriesController {
             default: {
                 summary: 'Category payload',
                 value: {
-                    name: 'Hardware',
-                    description: 'Incidencias relacionadas con equipos físicos',
+                    name: 'Hardware Swagger',
+                    description: 'Issues related to physical equipment',
                 },
             },
         },
@@ -37,15 +37,14 @@ export class CategoriesController {
             example: {
                 success: true,
                 data: {
-                    id: '6c7d8e9f-1a2b-3c4d-5e6f-7a8b9c0d1e2f',
-                    name: 'Hardware',
-                    description: 'Incidencias relacionadas con equipos físicos',
+                    name: 'Hardware Swagger',
+                    description: 'Issues related to physical equipment',
                 },
                 message: 'Request successful',
             },
         },
     })
-    @ApiResponse({ status: 403, description: 'Forbidden. Requires ADMINISTRADOR role.' })
+    @ApiResponse({ status: 403, description: 'Forbidden. Requires ADMIN role.' })
     create(@Body() createCategoryDto: CreateCategoryDto) {
         return this.categoriesService.create(createCategoryDto);
     }
@@ -60,9 +59,8 @@ export class CategoriesController {
                 success: true,
                 data: [
                     {
-                        id: '6c7d8e9f-1a2b-3c4d-5e6f-7a8b9c0d1e2f',
-                        name: 'Hardware',
-                        description: 'Incidencias relacionadas con equipos físicos',
+                        name: 'Hardware Swagger',
+                        description: 'Issues related to physical equipment',
                     },
                 ],
                 message: 'Request successful',
@@ -82,9 +80,8 @@ export class CategoriesController {
             example: {
                 success: true,
                 data: {
-                    id: '6c7d8e9f-1a2b-3c4d-5e6f-7a8b9c0d1e2f',
-                    name: 'Hardware',
-                    description: 'Incidencias relacionadas con equipos físicos',
+                    name: 'Hardware Swagger',
+                    description: 'Issues related to physical equipment',
                 },
                 message: 'Request successful',
             },
@@ -96,7 +93,7 @@ export class CategoriesController {
     }
 
     @Patch(':id')
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Update a category' })
     @ApiBody({
         type: UpdateCategoryDto,
@@ -104,7 +101,7 @@ export class CategoriesController {
             default: {
                 summary: 'Update payload',
                 value: {
-                    description: 'Incidencias de impresoras y equipos físicos',
+                    description: 'Printer and physical equipment issues',
                 },
             },
         },
@@ -116,22 +113,21 @@ export class CategoriesController {
             example: {
                 success: true,
                 data: {
-                    id: '6c7d8e9f-1a2b-3c4d-5e6f-7a8b9c0d1e2f',
-                    name: 'Hardware',
-                    description: 'Incidencias de impresoras y equipos físicos',
+                    name: 'Hardware Swagger',
+                    description: 'Printer and physical equipment issues',
                 },
                 message: 'Request successful',
             },
         },
     })
-    @ApiResponse({ status: 403, description: 'Forbidden. Requires ADMINISTRADOR role.' })
+    @ApiResponse({ status: 403, description: 'Forbidden. Requires ADMIN role.' })
     @ApiResponse({ status: 404, description: 'Category not found.' })
     update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
         return this.categoriesService.update(id, updateCategoryDto);
     }
 
     @Delete(':id')
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Delete a category' })
     @ApiResponse({
         status: 200,
@@ -144,7 +140,7 @@ export class CategoriesController {
             },
         },
     })
-    @ApiResponse({ status: 403, description: 'Forbidden. Requires ADMINISTRADOR role.' })
+    @ApiResponse({ status: 403, description: 'Forbidden. Requires ADMIN role.' })
     @ApiResponse({ status: 404, description: 'Category not found.' })
     remove(@Param('id') id: string) {
         return this.categoriesService.remove(id);

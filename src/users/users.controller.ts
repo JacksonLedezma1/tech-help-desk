@@ -25,7 +25,7 @@ export class UsersController {
     constructor(private readonly usersService: UsersService) { }
 
     @Post()
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Create a new user' })
     @ApiBody({
         type: CreateUserDto,
@@ -33,10 +33,10 @@ export class UsersController {
             default: {
                 summary: 'User payload',
                 value: {
-                    email: 'new.user@example.com',
+                    email: 'user.swagger@example.com',
                     password: 'password123',
-                    name: 'New User',
-                    role: 'cliente',
+                    name: 'User Swagger',
+                    role: 'client',
                 },
             },
         },
@@ -48,10 +48,9 @@ export class UsersController {
             example: {
                 success: true,
                 data: {
-                    id: '123e4567-e89b-12d3-a456-426614174000',
-                    email: 'new.user@example.com',
-                    name: 'New User',
-                    role: 'cliente',
+                    email: 'user.swagger@example.com',
+                    name: 'User Swagger',
+                    role: 'client',
                 },
                 message: 'Request successful',
             },
@@ -62,7 +61,7 @@ export class UsersController {
     }
 
     @Get()
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'List all users' })
     @ApiResponse({
         status: 200,
@@ -72,10 +71,9 @@ export class UsersController {
                 success: true,
                 data: [
                     {
-                        id: '123e4567-e89b-12d3-a456-426614174000',
-                        email: 'admin@example.com',
-                        name: 'Admin User',
-                        role: 'administrador',
+                        email: 'admin.swagger@example.com',
+                        name: 'Admin Swagger',
+                        role: 'admin',
                     },
                 ],
                 message: 'Request successful',
@@ -87,7 +85,7 @@ export class UsersController {
     }
 
     @Get(':id')
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Get user by ID' })
     @ApiResponse({
         status: 200,
@@ -96,10 +94,9 @@ export class UsersController {
             example: {
                 success: true,
                 data: {
-                    id: '123e4567-e89b-12d3-a456-426614174000',
-                    email: 'client@example.com',
-                    name: 'Client User',
-                    role: 'cliente',
+                    email: 'client.swagger@example.com',
+                    name: 'Client Swagger',
+                    role: 'client',
                 },
                 message: 'Request successful',
             },
@@ -110,7 +107,7 @@ export class UsersController {
     }
 
     @Patch(':id')
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Update a user' })
     @ApiBody({
         type: UpdateUserDto,
@@ -118,8 +115,8 @@ export class UsersController {
             default: {
                 summary: 'Update payload',
                 value: {
-                    name: 'Client User Updated',
-                    role: 'tecnico',
+                    name: 'Client Swagger Updated',
+                    role: 'technician',
                 },
             },
         },
@@ -131,10 +128,9 @@ export class UsersController {
             example: {
                 success: true,
                 data: {
-                    id: '123e4567-e89b-12d3-a456-426614174000',
-                    email: 'client@example.com',
-                    name: 'Client User Updated',
-                    role: 'tecnico',
+                    email: 'client.swagger@example.com',
+                    name: 'Client Swagger Updated',
+                    role: 'technician',
                 },
                 message: 'Request successful',
             },
@@ -145,7 +141,7 @@ export class UsersController {
     }
 
     @Delete(':id')
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Delete a user' })
     @ApiResponse({
         status: 200,

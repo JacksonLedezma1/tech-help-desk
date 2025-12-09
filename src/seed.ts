@@ -41,71 +41,71 @@ async function bootstrap() {
     console.log('Seeding data...');
 
     // Categories
-    const hardware = await upsertOne(categoryRepo, { name: 'Hardware' }, { description: 'Problemas de hardware' });
-    const software = await upsertOne(categoryRepo, { name: 'Software' }, { description: 'Problemas de software' });
+    const hardware = await upsertOne(categoryRepo, { name: 'Hardware (Seed)' }, { description: 'Hardware issues - seed data' });
+    const software = await upsertOne(categoryRepo, { name: 'Software (Seed)' }, { description: 'Software issues - seed data' });
 
     // Users
-    const adminUser = await upsertOne(userRepo, { email: 'admin@example.com' }, {
+    const adminUser = await upsertOne(userRepo, { email: 'admin@seed.com' }, {
         password: 'Admin123!',
-        name: 'Admin User',
-        role: Role.ADMINISTRADOR,
+        name: 'Admin User (Seed)',
+        role: Role.ADMIN,
     });
-    const techUser = await upsertOne(userRepo, { email: 'tech@example.com' }, {
+    const techUser = await upsertOne(userRepo, { email: 'tech@seed.com' }, {
         password: 'Tech123!',
-        name: 'Tech User',
-        role: Role.TECNICO,
+        name: 'Tech User (Seed)',
+        role: Role.TECHNICIAN,
     });
-    const clientUser = await upsertOne(userRepo, { email: 'client@example.com' }, {
+    const clientUser = await upsertOne(userRepo, { email: 'client@seed.com' }, {
         password: 'Client123!',
-        name: 'Client User',
-        role: Role.CLIENTE,
+        name: 'Client User (Seed)',
+        role: Role.CLIENT,
     });
 
     // Clients
-    const acmeClient = await upsertOne(clientRepo, { contactEmail: 'contacto@acme.com' }, {
-        name: 'Acme Corp',
+    const acmeClient = await upsertOne(clientRepo, { contactEmail: 'contacto@acme-seed.com' }, {
+        name: 'Acme Corp (Seed)',
         company: 'Acme Corp',
     });
-    const globexClient = await upsertOne(clientRepo, { contactEmail: 'it@globex.com' }, {
-        name: 'Globex',
+    const globexClient = await upsertOne(clientRepo, { contactEmail: 'it@globex-seed.com' }, {
+        name: 'Globex (Seed)',
         company: 'Globex',
     });
 
     // Technicians
-    const netTech = await upsertOne(technicianRepo, { name: 'María López' }, {
-        specialty: 'Redes',
+    const netTech = await upsertOne(technicianRepo, { name: 'María López (Seed)' }, {
+        specialty: 'Networks',
         availability: true,
     });
-    const sysTech = await upsertOne(technicianRepo, { name: 'Juan Pérez' }, {
-        specialty: 'Sistemas',
+    const sysTech = await upsertOne(technicianRepo, { name: 'Juan Pérez (Seed)' }, {
+        specialty: 'Systems',
         availability: true,
     });
 
     // Tickets
-    await upsertOne(ticketRepo, { title: 'Impresora no responde' }, {
-        description: 'La impresora muestra error 50.',
+    await upsertOne(ticketRepo, { title: 'Printer not responding (Seed)' }, {
+        description: 'Printer shows error 50.',
         categoryId: hardware.id,
         clientId: acmeClient.id,
         technicianId: netTech.id,
-        status: TicketStatus.EN_PROGRESO,
-        priority: 'alta',
+        status: TicketStatus.IN_PROGRESS,
+        priority: 'high',
     });
 
-    await upsertOne(ticketRepo, { title: 'Actualización de CRM' }, {
-        description: 'El CRM no carga después de la última actualización.',
+    await upsertOne(ticketRepo, { title: 'CRM Update (Seed)' }, {
+        description: 'CRM does not load after last update.',
         categoryId: software.id,
         clientId: globexClient.id,
         technicianId: sysTech.id,
-        status: TicketStatus.ABIERTO,
-        priority: 'media',
+        status: TicketStatus.OPEN,
+        priority: 'medium',
     });
 
-    await upsertOne(ticketRepo, { title: 'Correo no sincroniza' }, {
-        description: 'Outlook no sincroniza las carpetas compartidas.',
+    await upsertOne(ticketRepo, { title: 'Mail sync issue (Seed)' }, {
+        description: 'Outlook does not sync shared folders.',
         categoryId: software.id,
         clientId: acmeClient.id,
-        status: TicketStatus.ABIERTO,
-        priority: 'alta',
+        status: TicketStatus.OPEN,
+        priority: 'high',
     });
 
     console.log('Seed completed.');

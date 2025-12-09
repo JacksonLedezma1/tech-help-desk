@@ -25,7 +25,7 @@ export class ClientsController {
     constructor(private readonly clientsService: ClientsService) { }
 
     @Post()
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Create a new client' })
     @ApiBody({
         type: CreateClientDto,
@@ -33,9 +33,9 @@ export class ClientsController {
             default: {
                 summary: 'Client payload',
                 value: {
-                    name: 'Juan Perez',
-                    company: 'Acme Corp',
-                    contactEmail: 'juan.perez@acme.com',
+                    name: 'Client Swagger',
+                    company: 'Swagger Corp',
+                    contactEmail: 'contact@swagger.com',
                 },
             },
         },
@@ -47,15 +47,15 @@ export class ClientsController {
             example: {
                 success: true,
                 data: {
-                    id: '8b4e2f4b-8f8f-4a4e-9f9f-1a2b3c4d5e6f',
-                    name: 'Juan Perez',
-                    company: 'Acme Corp',
-                    contactEmail: 'juan.perez@acme.com',
+                    name: 'Client Swagger',
+                    company: 'Swagger Corp',
+                    contactEmail: 'contact@swagger.com',
                 },
                 message: 'Request successful',
             },
         },
     })
+    @ApiResponse({ status: 409, description: 'Email already exists.' })
     create(@Body() createClientDto: CreateClientDto) {
         return this.clientsService.create(createClientDto);
     }
@@ -70,10 +70,9 @@ export class ClientsController {
                 success: true,
                 data: [
                     {
-                        id: '8b4e2f4b-8f8f-4a4e-9f9f-1a2b3c4d5e6f',
-                        name: 'Juan Perez',
-                        company: 'Acme Corp',
-                        contactEmail: 'juan.perez@acme.com',
+                        name: 'Client Swagger',
+                        company: 'Swagger Corp',
+                        contactEmail: 'contact@swagger.com',
                     },
                 ],
                 message: 'Request successful',
@@ -93,10 +92,9 @@ export class ClientsController {
             example: {
                 success: true,
                 data: {
-                    id: '8b4e2f4b-8f8f-4a4e-9f9f-1a2b3c4d5e6f',
-                    name: 'Juan Perez',
-                    company: 'Acme Corp',
-                    contactEmail: 'juan.perez@acme.com',
+                    name: 'Client Swagger',
+                    company: 'Swagger Corp',
+                    contactEmail: 'contact@swagger.com',
                 },
                 message: 'Request successful',
             },
@@ -107,7 +105,7 @@ export class ClientsController {
     }
 
     @Patch(':id')
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Update a client' })
     @ApiBody({
         type: UpdateClientDto,
@@ -115,9 +113,9 @@ export class ClientsController {
             default: {
                 summary: 'Update payload',
                 value: {
-                    name: 'Juan Perez',
-                    company: 'Acme Corp',
-                    contactEmail: 'juan.perez@acme.com',
+                    name: 'Client Swagger',
+                    company: 'Swagger Corp',
+                    contactEmail: 'contact@swagger.com',
                 },
             },
         },
@@ -129,10 +127,9 @@ export class ClientsController {
             example: {
                 success: true,
                 data: {
-                    id: '8b4e2f4b-8f8f-4a4e-9f9f-1a2b3c4d5e6f',
-                    name: 'Juan Perez',
-                    company: 'Acme Corp',
-                    contactEmail: 'juan.perez@acme.com',
+                    name: 'Client Swagger',
+                    company: 'Swagger Corp',
+                    contactEmail: 'contact@swagger.com',
                 },
                 message: 'Request successful',
             },
@@ -143,7 +140,7 @@ export class ClientsController {
     }
 
     @Delete(':id')
-    @Roles(Role.ADMINISTRADOR)
+    @Roles(Role.ADMIN)
     @ApiOperation({ summary: 'Delete a client' })
     @ApiResponse({
         status: 200,

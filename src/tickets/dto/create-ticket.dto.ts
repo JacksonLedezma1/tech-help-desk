@@ -2,39 +2,39 @@ import { IsNotEmpty, IsString, IsUUID, IsOptional, IsEnum } from 'class-validato
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateTicketDto {
-    @ApiProperty({ example: 'Problema con la impresora', description: 'Título del ticket' })
-    @IsNotEmpty({ message: 'El título del ticket es requerido' })
-    @IsString({ message: 'El título debe ser un texto' })
+    @ApiProperty({ example: 'Problem with the printer', description: 'Ticket title' })
+    @IsNotEmpty({ message: 'Title is required' })
+    @IsString({ message: 'Title must be a string' })
     title: string;
 
     @ApiProperty({
-        example: 'La impresora no responde y muestra error 50.',
-        description: 'Descripción detallada del problema',
+        example: 'The printer is not responding and shows error 50.',
+        description: 'Detailed description of the problem',
     })
-    @IsNotEmpty({ message: 'La descripción del ticket es requerida' })
-    @IsString({ message: 'La descripción debe ser un texto' })
+    @IsNotEmpty({ message: 'Description is required' })
+    @IsString({ message: 'Description must be a string' })
     description: string;
 
     @ApiProperty({
-        example: 'uuid-categoria-existente',
-        description: 'Identificador UUID de la categoría existente',
+        example: 'uuid-existing-category',
+        description: 'UUID of the existing category',
         format: 'uuid',
     })
-    @IsNotEmpty({ message: 'La categoría es requerida' })
-    @IsUUID('4', { message: 'El ID de categoría debe ser un UUID válido' })
+    @IsNotEmpty({ message: 'Category is required' })
+    @IsUUID('4', { message: 'Category ID must be a valid UUID' })
     categoryId: string;
 
     @ApiProperty({
-        example: 'uuid-cliente-existente',
-        description: 'Identificador UUID del cliente existente',
+        example: 'uuid-existing-client',
+        description: 'UUID of the existing client',
         format: 'uuid',
     })
-    @IsNotEmpty({ message: 'El cliente es requerido' })
-    @IsUUID('4', { message: 'El ID de cliente debe ser un UUID válido' })
+    @IsNotEmpty({ message: 'Client is required' })
+    @IsUUID('4', { message: 'Client ID must be a valid UUID' })
     clientId: string;
 
-    @ApiPropertyOptional({ example: 'alta', description: 'Prioridad del ticket' })
+    @ApiPropertyOptional({ example: 'high', description: 'Ticket priority' })
     @IsOptional()
-    @IsString({ message: 'La prioridad debe ser un texto' })
+    @IsString({ message: 'Priority must be a string' })
     priority?: string;
 }
